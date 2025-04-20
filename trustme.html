@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Trust Me – Sociální síť</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body, html {
+      height: 100%;
+      overflow: hidden;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      perspective: 1000px;
+      transition: background 0.5s ease;
+    }
+
+    .background-effect {
+      position: absolute;
+      width: 120%;
+      height: 120%;
+      top: -10%;
+      left: -10%;
+      background: url('https://www.transparenttextures.com/patterns/dark-mosaic.png'), radial-gradient(circle at center, #1a1a2e, #16213e, #0f3460);
+      background-blend-mode: overlay;
+      z-index: -1;
+      transform: rotateX(0deg) rotateY(0deg);
+      transition: transform 0.1s ease-out;
+    }
+
+    .container {
+      background: rgba(255, 255, 255, 0.1);
+      padding: 2rem;
+      border-radius: 15px;
+      box-shadow: 0 0 25px rgba(0,255,255,0.2);
+      width: 320px;
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(0,255,255,0.3);
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 1rem;
+      font-weight: bold;
+      color: #00ffe7;
+      text-shadow: 0 0 10px #00ffe7;
+    }
+
+    form {
+      display: none;
+      flex-direction: column;
+    }
+    form.active {
+      display: flex;
+    }
+    input[type="text"], input[type="password"], input[type="email"] {
+      padding: 0.6rem;
+      margin-bottom: 1rem;
+      border: none;
+      border-radius: 5px;
+      background: rgba(255, 255, 255, 0.1);
+      color: white;
+    }
+
+    input::placeholder {
+      color: #ccc;
+    }
+
+    button {
+      padding: 0.6rem;
+      background: #00ffe7;
+      color: #000;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    button:hover {
+      background: #00bfa6;
+    }
+
+    .link {
+      margin-top: 0.5rem;
+      text-align: center;
+      font-size: 0.9rem;
+    }
+    .link a {
+      color: #00ffe7;
+      cursor: pointer;
+      text-decoration: none;
+    }
+    .remember {
+      display: flex;
+      align-items: center;
+      margin-bottom: 1rem;
+      font-size: 0.85rem;
+    }
+    .remember input {
+      margin-right: 5px;
+    }
+
+    /* Notifikace */
+    .notification {
+      display: none;
+      position: fixed;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      background-color: #00ffe7;
+      color: #000;
+      padding: 1rem;
+      border-radius: 5px;
+      font-weight: bold;
+      box-shadow: 0 0 15px rgba(0, 255, 255, 0.3);
+      z-index: 9999;
+    }
+
+  </style>
+</head>
+<body>
+
+  <div class="background-effect" id="bgEffect"></div>
+
+  <div class="container">
+    <h2>Trust Me</h2>
+
+    <!-- Přihlášení -->
+    <form id="loginForm" class="active">
+      <input type="text" id="loginUsername" placeholder="Uživatelské jméno" required>
+      <input type="password" id="loginPassword" placeholder="Heslo" required>
+      <div class="remember">
+        <input type="checkbox" id="rememberMe">
+        <label for="rememberMe">Zapamatovat si mě</label>
+      </div>
+      <button type="submit">Přihlásit se</button>
+      <div class="link">
+        <a onclick="showForm('registerForm')">Nemáte účet? Zaregistrujte se</a><br>
+        <a onclick="showForm('forgotForm')">Zapomněli jste heslo?</a>
+      </div>
+    </form>
+
+    <!-- Registrace -->
+    <form id="registerForm">
+      <input type="text" id="registerUsername" placeholder="Uživatelské jméno" required>
+      <input type="email" id="registerEmail" placeholder="Email" required>
+      <input type="password" id="registerPassword" placeholder="Heslo" required>
+      <button type="submit">Registrovat</button>
+      <div class="link">
+        <a onclick="showForm('loginForm')">Máte účet? Přihlaste se</a>
+      </div>
+    </form>
+
+    <!-- Zapomenutí hesla -->
+    <form id="forgotForm">
+      <input type="email" placeholder="Zadejte svůj email" required>
+      <button type="submit">Obnovit heslo</button>
+      <div class="link">
+        <a onclick="showForm('loginForm')">Zpět na přihlášení</a>
+      </div>
+    </form>
+  </div>
+
+  <!-- Notifikace -->
+  <div id="notification" class="notification"></div>
+
+  <script>
+    function showForm(id) {
+      document.querySelectorAll('form').forEach(form => {
+        form.classList.remove('active');
+      });
+      document.getElementById(id).classList.add('active');
+    }
+
+    // Offline režim - jednoduché ověření
+    function checkOfflineMode() {
+      if (navigator.onLine === false) {
+        showNotification("Jste offline, přihlašování a registrace nejsou k dispozici.");
+        return true;
+      }
+      return false;
+    }
+
+    // Zobrazení notifikace
+    function showNotification(message) {
+      const notification = document.getElementById('notification');
+      notification.textContent = message;
+      notification.style.display = 'block';
+      setTimeout(() => {
+        notification.style.display = 'none';
+      }, 4000); // Notifikace zmizí po 4 sekundách
+    }
+
+    // Přihlášení uživatele
+    document.getElementById('loginForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      if (checkOfflineMode()) return;
+
+      const username = document.getElementById('loginUsername').value;
+      const password = document.getElementById('loginPassword').value;
+      // Zde může být logika pro ověření přihlášení (např. AJAX volání na server).
+      // Pokud přihlášení úspěšné:
+      showNotification("Úspěšně přihlášeno!");
+      window.location.href = 'dashboard.html';  // Přesměrování na dashboard
+    });
+
+    // Registrace uživatele
+    document.getElementById('registerForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      if (checkOfflineMode()) return;
+
+      const username = document.getElementById('registerUsername').value;
+      const email = document.getElementById('registerEmail').value;
+      const password = document.getElementById('registerPassword').value;
+      // Zde může být logika pro registraci uživatele (např. AJAX volání na server).
+      // Pokud registrace úspěšná:
+      showNotification("Účet byl vytvořen. Přihlašujete se nyní.");
+      showForm('loginForm');  // Přesměrování na přihlášení
+    });
+
+    // Parallax efekt podle myši
+    document.addEventListener("mousemove", (e) => {
+      const bg = document.getElementById("bgEffect");
+      let x = (e.clientX / window.innerWidth - 0.5) * 20;
+      let y = (e.clientY / window.innerHeight - 0.5) * -20;
+      bg.style.transform = `rotateX(${y}deg) rotateY(${x}deg)`;
+    });
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cyber Loading Spinner</title>
+    <style>
+        /* Resetování základních stylů */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body, html {
+            height: 100%;
+            background-color: #0f0f0f;
+            font-family: 'Courier New', Courier, monospace;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Kontejner pro logo */
+        .spinner-container {
+            text-align: center;
+            color: var(--green-color, #00ff00);
+            font-size: 1.5rem;
+            text-shadow: 0 0 10px var(--green-color), 0 0 20px var(--green-color), 0 0 30px #ff00ff, 0 0 40px #ff00ff, 0 0 50px #ff00ff, 0 0 75px #ff00ff;
+        }
+
+        /* Definice otáčejícího se loga */
+        .logo {
+            width: 100px; /* Můžeš upravit velikost */
+            height: 100px; /* Můžeš upravit velikost */
+            animation: spin 2s linear infinite;
+            margin: 20px auto;
+        }
+
+        /* Animace pro rotaci loga */
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Tlačítko pro Trust ekosystém */
+        .trust-btn {
+            display: inline-block;
+            padding: 12px 25px;
+            background-color: var(--green-color);
+            border: 2px solid var(--green-color);
+            color: #0f0f0f;
+            font-size: 1rem;
+            text-transform: uppercase;
+            cursor: pointer;
+            margin-top: 20px;
+            border-radius: 8px;
+            font-weight: bold;
+            box-shadow: 0 0 10px var(--green-color);
+            opacity: 1; /* Tlačítko je viditelné */
+            transform: scale(1); /* Tlačítko je ve standardní velikosti */
+            pointer-events: none; /* Tlačítko není kliknutelné */
+        }
+
+        .trust-btn.visible {
+            pointer-events: auto; /* Tlačítko bude kliknutelné */
+        }
+
+        .trust-btn:hover {
+            background-color: #0f0f0f;
+            color: var(--green-color);
+            box-shadow: 0 0 20px var(--green-color);
+        }
+
+        /* Efekty textu pro cyber styl */
+        .effect-text {
+            animation: textEffect 3s ease-in-out infinite;
+        }
+
+        @keyframes textEffect {
+            0% { color: var(--green-color); text-shadow: 0 0 5px var(--green-color), 0 0 10px var(--green-color); }
+            50% { color: #ff00ff; text-shadow: 0 0 10px #ff00ff, 0 0 20px #ff00ff; }
+            100% { color: var(--green-color); text-shadow: 0 0 5px var(--green-color), 0 0 10px var(--green-color); }
+        }
+
+        .status-message {
+            color: var(--green-color);
+            font-size: 1rem;
+            margin-top: 15px;
+        }
+
+        /* Responzivita */
+        @media screen and (max-width: 768px) {
+            .logo {
+                width: 80px;
+                height: 80px;
+            }
+            .spinner-container {
+                font-size: 1.2rem;
+            }
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="spinner-container" aria-live="polite">
+        <img src="logo.png" alt="Logo" class="logo">
+        <p class="effect-text" aria-live="assertive">Načítání, prosím čekejte...</p>
+        <p class="status-message" id="statusMessage"></p>
+        <button class="trust-btn" id="trustBtn" onclick="redirectToIndex()">Spustit Trust Ekosystém</button>
+    </div>
+
+    <footer style="position: absolute; bottom: 10px; width: 100%; text-align: center; color: #00ff00; font-size: 1rem;">
+        &copy; 2025 Trust Ecosystem. Všechna práva vyhrazena.
+    </footer>
+
+    <script>
+        // Funkce pro zobrazení tlačítka po dokončení načítání
+        window.onload = function() {
+            initLoadingSequence();
+        }
+
+        // Funkce pro připojení k serverům Trust Key (simulace)
+        function connectToServer() {
+            return new Promise((resolve) => {
+                setTimeout(() => {
+                    document.getElementById('statusMessage').innerText = 'Připojování k serveru Trust Key...';
+                    resolve('connected');
+                }, 2000);
+            });
+        }
+
+        // Funkce pro analýzu dat (simulace)
+        function analyzeData() {
+            return new Promise((resolve) => {
+                setTimeout(() => {
+                    document.getElementById('statusMessage').innerText = 'Analyzování dat...';
+                    resolve('dataAnalyzed');
+                }, 3000);
+            });
+        }
+
+        // Funkce pro testování rychlosti připojení (simulace)
+        function testSpeed() {
+            return new Promise((resolve) => {
+                setTimeout(() => {
+                    document.getElementById('statusMessage').innerText = 'Testování rychlosti připojení...';
+                    resolve('speedTestComplete');
+                }, 4000);
+            });
+        }
+
+        // Sekvence načítání s připojováním, analýzou a testováním rychlosti
+        async function initLoadingSequence() {
+            await connectToServer();
+            await analyzeData();
+            await testSpeed();
+            document.getElementById('statusMessage').innerText = 'Vše hotovo! Klikněte na tlačítko pro spuštění Trust Ekosystému.';
+            // Po dokončení načítání, tlačítko bude kliknutelné
+            document.getElementById('trustBtn').classList.add('visible');
+        }
+
+        // Funkce pro přesměrování na index.html
+        function redirectToIndex() {
+            window.location.href = 'loading.html';
+        }
+    </script>
+
+</body>
+</html>

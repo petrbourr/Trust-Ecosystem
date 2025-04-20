@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Projekty Trust Eco.</title>
+    <style>
+        body {
+            background-color: #121212;
+            color: #00FFF7;
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+        }
+
+        h1 {
+            text-align: center;
+            color: #00FFF7;
+            padding: 30px;
+            font-size: 36px;
+            text-shadow: 0 0 10px #00FFF7, 0 0 20px #00FFF7;
+            border-bottom: 3px solid #00FFF7;
+        }
+
+        .project-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 30px;
+        }
+
+        .project-box {
+            width: 300px;
+            background-color: #1e1e1e;
+            border: 2px solid transparent;
+            border-radius: 15px;
+            padding: 20px;
+            position: relative;
+            background: linear-gradient(145deg, #2a2a2a, #1c1c1c);
+            box-shadow: 0 4px 15px rgba(0, 255, 247, 0.5);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .project-box:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 255, 247, 0.1);
+            border-radius: 15px;
+            z-index: -1;
+            box-shadow: 0 0 15px rgba(0, 255, 247, 0.5);
+        }
+
+        .project-box:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 20px rgba(0, 255, 247, 0.7);
+        }
+
+        .project-name {
+            color: #00FFF7;
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .project-description {
+            color: #00FFF7;
+            font-size: 14px;
+            margin: 10px 0;
+            line-height: 1.5;
+        }
+
+        .btn {
+            background-color: #00FFF7;
+            color: #121212;
+            padding: 12px 20px;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 10px rgba(0, 255, 247, 0.4);
+        }
+
+        .btn:hover {
+            background-color: #00B8A9;
+            transform: scale(1.1);
+            box-shadow: 0 8px 15px rgba(0, 255, 247, 0.6);
+        }
+
+    </style>
+</head>
+<body>
+
+    <h1>Projekty Trust Eco.</h1>
+
+    <div class="project-container">
+
+        <!-- Projekt Trust Me -->
+        <div class="project-box">
+            <div class="project-name">Trust Me (Sociální síť)</div>
+            <div class="project-description">
+                Revoluční sociální síť zaměřená na bezpečnost a soukromí uživatelů.
+            </div>
+            <a href="trust_me.html" class="btn">Více informací</a>
+        </div>
+
+        <!-- Projekt Trust Coin -->
+        <div class="project-box">
+            <div class="project-name">Trust Coin (Kryptoměna)</div>
+            <div class="project-description">
+                Kryptoměna pro platby v rámci sociální sítě Trust Me.
+            </div>
+            <a href="trust_coin.html" class="btn">Více informací</a>
+        </div>
+
+        <!-- Projekt Trust AI -->
+        <div class="project-box">
+            <div class="project-name">Trust AI (Kontrola pohybu)</div>
+            <div class="project-description">
+                Systém pro monitorování aktivity na sociální síti.
+            </div>
+            <a href="trust_ai.html" class="btn">Více informací</a>
+        </div>
+
+        <!-- Projekt Trust Key -->
+        <div class="project-box">
+            <div class="project-name">Trust Key (Zabezpečovací program)</div>
+            <div class="project-description">
+                Šifrovací nástroj pro ochranu dat v rámci Trust Me.
+            </div>
+            <a href="trust_key.html" class="btn">Více informací</a>
+        </div>
+
+        <!-- Projekt Trust SYS -->
+        <div class="project-box">
+            <div class="project-name">Trust SYS (Operační systém pro investory)</div>
+            <div class="project-description">
+                Operační systém pro bezpečné spravování financí a investic.
+            </div>
+            <a href="trust_sys.html" class="btn">Více informací</a>
+        </div>
+
+    </div>
+
+</body>
+</html>

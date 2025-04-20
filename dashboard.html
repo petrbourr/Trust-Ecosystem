@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Trust Me - Sociální Síť pro Dobro</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(135deg, #6a1b9a, #004d40);
+      color: white;
+      display: flex;
+      height: 100vh;
+      overflow: hidden;
+      transition: background 0.3s ease;
+    }
+
+    .sidebar {
+      width: 300px;
+      background: rgba(0, 255, 255, 0.1);
+      border-right: 1px solid rgba(0, 255, 255, 0.2);
+      padding: 2rem 1.5rem;
+      display: flex;
+      flex-direction: column;
+      backdrop-filter: blur(10px);
+      overflow-y: auto;
+    }
+
+    .logo {
+      font-size: 2.2rem;
+      color: #00ffe7;
+      text-shadow: 0 0 12px #00ffe7;
+      margin-bottom: 2rem;
+      text-align: center;
+    }
+
+    .sidebar nav a {
+      text-decoration: none;
+      color: white;
+      margin: 1rem 0;
+      padding: 0.8rem 1.2rem;
+      border-radius: 10px;
+      transition: background 0.3s;
+      display: block;
+    }
+
+    .sidebar nav a:hover {
+      background: rgba(0, 255, 255, 0.2);
+    }
+
+    .main-content {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      padding: 2rem;
+      overflow-y: auto;
+      background: rgba(0, 0, 0, 0.1);
+    }
+
+    .section {
+      display: none;
+      width: 100%;
+      max-width: 1200px;
+    }
+
+    .card {
+      background: rgba(0, 255, 255, 0.05);
+      border: 1px solid rgba(0, 255, 255, 0.2);
+      padding: 2rem;
+      border-radius: 15px;
+      backdrop-filter: blur(10px);
+      width: 100%;
+      box-shadow: 0 0 25px rgba(0,255,255,0.1);
+      animation: fadeIn 0.5s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .message {
+      margin-bottom: 1rem;
+      padding: 1rem;
+      background: rgba(255,255,255,0.05);
+      border-left: 3px solid #00ffe7;
+      border-radius: 8px;
+      animation: fadeIn 0.4s ease;
+    }
+
+    .message .from {
+      font-weight: bold;
+      color: #00ffe7;
+    }
+
+    .message .text {
+      margin-top: 0.4rem;
+      font-size: 0.95rem;
+    }
+
+    .friend-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1rem;
+    }
+
+    .friend {
+      background: rgba(0,255,255,0.05);
+      padding: 1rem;
+      border: 1px solid rgba(0,255,255,0.1);
+      border-radius: 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: background 0.3s;
+    }
+
+    .friend:hover {
+      background: rgba(0,255,255,0.1);
+    }
+
+    .status {
+      font-size: 0.85rem;
+      font-weight: bold;
+    }
+
+    .online { color: #0f0; }
+    .offline { color: #999; }
+
+    .post {
+      background: rgba(0,255,255,0.1);
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+      border-radius: 10px;
+      box-shadow: 0 0 20px rgba(0,255,255,0.2);
+      animation: fadeIn 0.6s ease-in-out;
+    }
+
+    .post-content {
+      font-size: 1.1rem;
+      line-height: 1.8;
+    }
+
+    .post-footer {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 1rem;
+    }
+
+    .post-footer a {
+      color: #00ffe7;
+      font-weight: bold;
+      text-decoration: none;
+    }
+
+    .post-footer a:hover {
+      text-decoration: underline;
+    }
+
+    .settings-form label {
+      display: block;
+      margin-bottom: 0.5rem;
+      color: #00ffe7;
+      font-weight: bold;
+    }
+
+    .settings-form input[type="text"],
+    .settings-form input[type="email"],
+    .settings-form select {
+      width: 100%;
+      padding: 0.8rem;
+      margin-bottom: 1.2rem;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid #00ffe7;
+      border-radius: 8px;
+    }
+
+    .settings-form button {
+      padding: 1rem;
+      background: #00ffe7;
+      color: black;
+      border: none;
+      border-radius: 8px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    .settings-form button:hover {
+      background: #00bfa6;
+    }
+
+    .user-profile {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .profile-image {
+      width: 150px;
+      height: 150px;
+      border-radius: 50%;
+      background-color: #ccc;
+      margin-bottom: 1rem;
+    }
+
+    .user-name {
+      font-size: 1.6rem;
+      color: #00ffe7;
+      margin-bottom: 0.5rem;
+    }
+
+    .user-bio {
+      font-size: 1rem;
+      color: white;
+      text-align: center;
+      margin-bottom: 1rem;
+    }
+
+    .upload-button {
+      background: #00ffe7;
+      color: black;
+      padding: 0.7rem 1.5rem;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    .upload-button:hover {
+      background: #00bfa6;
+    }
+
+    .message-button {
+      padding: 1rem;
+      background: #00ffe7;
+      color: black;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: background 0.3s ease;
+      margin-top: 1rem;
+    }
+
+    .message-button:hover {
+      background: #00bfa6;
+    }
+
+    .group-chat {
+      background: rgba(255, 255, 255, 0.08);
+      padding: 1rem;
+      margin-top: 1rem;
+      border-radius: 8px;
+    }
+
+    .group-chat input {
+      width: 90%;
+      padding: 0.8rem;
+      background: rgba(0, 255, 255, 0.1);
+      border: 1px solid #00ffe7;
+      border-radius: 8px;
+      color: white;
+    }
+
+    .friend-follow {
+      background: #00ffe7;
+      padding: 0.7rem 1.5rem;
+      margin-top: 1rem;
+      color: black;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    .friend-follow:hover {
+      background: #00bfa6;
+    }
+
+    .mental-health {
+      background: rgba(255, 255, 255, 0.08);
+      padding: 1rem;
+      border-radius: 10px;
+      margin-top: 1rem;
+    }
+
+    .mental-health h3 {
+      font-size: 1.6rem;
+      color: #00ffe7;
+    }
+
+    .mental-health p {
+      color: white;
+      font-size: 1rem;
+      margin-top: 1rem;
+    }
+
+    .mental-health .relax-button {
+      background: #00ffe7;
+      padding: 0.7rem 1.5rem;
+      margin-top: 1rem;
+      border-radius: 8px;
+      color: black;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    .mental-health .relax-button:hover {
+      background: #00bfa6;
+    }
+  </style>
+</head>
+<body>
+
+  <aside class="sidebar">
+    <div class="logo">Trust Me</div>
+    <nav>
+      <a href="#" onclick="showSection('profil')">👤 Profil</a>
+      <a href="#" onclick="showSection('zpravy')">💬 Zprávy</a>
+      <a href="#" onclick="showSection('pratele')">👥 Přátelé</a>
+      <a href="#" onclick="showSection('posty')">📝 Posty</a>
+      <a href="#" onclick="showSection('nahlaseni')">⚖️ Nahlášení</a>
+      <a href="#" onclick="showSection('dusevnipohoda')">🧘‍♀️ Duševní Pohoda</a>
+      <a href="#" onclick="showSection('levelovani')">⚡ Levelování</a>
+      <a href="#" onclick="showSection('nastaveni')">⚙️ Nastavení</a>
+      <a href="#" onclick="showSection('notifikace')">🔔 Notifikace</a>
+      <a href="#" onclick="showSection('udalosti')">📅 Události</a>
+      <a href="#" onclick="showSection('uspechy')">🏆 Úspěchy</a>
+    </nav>
+  </aside>
+
+  <main class="main-content">
+    <div id="profil" class="section">
+      <h2>👤 Můj Profil</h2>
+      <div class="card">
+        <div class="user-profile">
+          <div class="profile-image"></div>
+          <div class="user-name">Jan Novák</div>
+          <div class="user-bio">Toto je moje bio. Rád pomáhám druhým!</div>
+          <button class="upload-button">Nahrát obrázek</button>
+        </div>
+      </div>
+    </div>
+
+    <div id="zpravy" class="section">
+      <h2>💬 Zprávy</h2>
+      <div class="card">
+        <div class="group-chat">
+          <h3>Skupinový chat</h3>
+          <input type="text" placeholder="Zde napište zprávu...">
+        </div>
+        <div class="message">
+          <div class="from">Petr Novák</div>
+          <div class="text">Ahoj, jak se máš?</div>
+        </div>
+      </div>
+    </div>
+
+    <div id="pratele" class="section">
+      <h2>👥 Moji Přátelé</h2>
+      <div class="card">
+        <div class="friend-list">
+          <div class="friend">
+            <img src="https://randomuser.me/api/portraits/men/1.jpg" alt="Profile Image">
+            <div class="friend-info">
+              <div class="friend-name">Petr Novák</div>
+              <div class="status online">Online</div>
+            </div>
+            <button class="friend-follow">Sledovat</button>
+          </div>
+          <div class="friend">
+            <img src="https://randomuser.me/api/portraits/women/1.jpg" alt="Profile Image">
+            <div class="friend-info">
+              <div class="friend-name">Eva Malá</div>
+              <div class="status offline">Offline</div>
+            </div>
+            <button class="friend-follow">Sledovat</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="posty" class="section">
+      <h2>📝 Nové Posty</h2>
+      <div class="card">
+        <div class="post">
+          <div class="post-content">Ahoj, toto je můj nový příspěvek. Jaký máte názor na nový trend ve fitnessu?</div>
+          <div class="post-footer">
+            <a href="#">Komentovat</a>
+            <a href="#">Sdílet</a>
+          </div>
+        </div>
+        <div class="post">
+          <div class="post-content">Dnes jsem se zúčastnil skvělé přednášky o udržitelnosti. Co si myslíte o ekologii v podnikání?</div>
+          <div class="post-footer">
+            <a href="#">Komentovat</a>
+            <a href="#">Sdílet</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="nahlaseni" class="section">
+      <h2>⚖️ Nahlášení</h2>
+      <div class="card">
+        <p>Pokud máte podezření na porušení pravidel, nahlaste prosím obsah.</p>
+        <form action="#">
+          <label for="reason">Důvod nahlášení:</label>
+          <textarea id="reason" rows="4" placeholder="Popište problém..."></textarea>
+          <button type="submit">Nahlásit</button>
+        </form>
+      </div>
+    </div>
+
+    <div id="dusevnipohoda" class="section">
+      <h2>🧘‍♀️ Duševní Pohoda</h2>
+      <div class="card">
+        <h3>Přemýšlejte o své duševní pohodě</h3>
+        <p>Je důležité se občas zastavit a zamyslet nad svým psychickým zdravím. Co pro sebe děláte, aby jste zůstali v rovnováze?</p>
+        <button class="relax-button">Zjistit více</button>
+      </div>
+    </div>
+
+    <div id="levelovani" class="section">
+      <h2>⚡ Levelování</h2>
+      <div class="card">
+        <p>Získávejte body za interakce v aplikaci, zvyšujte svůj level a odemykejte nové funkce!</p>
+        <p>Aktuální level: 5</p>
+      </div>
+    </div>
+
+    <div id="nastaveni" class="section">
+      <h2>⚙️ Nastavení</h2>
+      <div class="card">
+        <form class="settings-form">
+          <label for="username">Uživatelské jméno</label>
+          <input type="text" id="username" value="Jan Novák" required>
+
+          <label for="email">Email</label>
+          <input type="email" id="email" value="jan.novak@email.cz" required>
+
+          <label for="language">Jazyk</label>
+          <select id="language">
+            <option value="cs">Čeština</option>
+            <option value="en">Angličtina</option>
+          </select>
+
+          <button type="submit">Uložit změny</button>
+        </form>
+      </div>
+    </div>
+
+    <div id="notifikace" class="section">
+      <h2>🔔 Notifikace</h2>
+      <div class="card">
+        <p>Aktuálně máte 3 nové notifikace:</p>
+        <ul>
+          <li>Nový komentář na váš příspěvek!</li>
+          <li>Nový follow od Petra Nováka</li>
+          <li>Úspěšně jste získali nový level!</li>
+        </ul>
+      </div>
+    </div>
+
+    <div id="udalosti" class="section">
+      <h2>📅 Události</h2>
+      <div class="card">
+        <h3>Večerní běhání ve městě</h3>
+        <p>Upozorňujeme na událost: Večerní běhání. Připojte se a udělejte něco pro své zdraví!</p>
+        <button class="relax-button">Připojit se</button>
+      </div>
+    </div>
+
+    <div id="uspechy" class="section">
+      <h2>🏆 Úspěchy</h2>
+      <div class="card">
+        <p>Gratulujeme! Získali jste nové úspěchy:</p>
+        <ul>
+          <li>První příspěvek</li>
+          <li>10 přátel</li>
+          <li>Účast na 5 událostech</li>
+        </ul>
+      </div>
+    </div>
+
+  </main>
+
+  <script>
+    function showSection(id) {
+      const sections = document.querySelectorAll('.section');
+      sections.forEach((section) => {
+        section.style.display = 'none';
+      });
+      document.getElementById(id).style.display = 'block';
+    }
+
+    showSection('profil');  // Defaultní zobrazení
+  </script>
+</body>
+</html>

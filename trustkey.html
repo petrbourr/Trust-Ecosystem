@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Trust Key Zabezpečení</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            height: 100vh;
+            background: radial-gradient(circle, rgba(0, 0, 0, 0.9) 0%, rgba(0, 50, 100, 1) 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Roboto', sans-serif;
+            color: #fff;
+            overflow: hidden;
+        }
+
+        .container {
+            text-align: center;
+            padding: 40px;
+            background: rgba(0, 0, 0, 0.7);
+            border-radius: 20px;
+            box-shadow: 0 0 25px rgba(0, 255, 255, 0.5);
+            transform: scale(0.95);
+            animation: zoomIn 0.8s ease-out forwards;
+        }
+
+        @keyframes zoomIn {
+            from {
+                transform: scale(0.8);
+                opacity: 0;
+            }
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        h1 {
+            font-size: 2.8em;
+            color: #00FFFF;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 5px;
+            text-shadow: 0 0 15px rgba(0, 255, 255, 0.8);
+            animation: glow 1.5s ease-in-out infinite alternate;
+        }
+
+        @keyframes glow {
+            0% {
+                text-shadow: 0 0 15px rgba(0, 255, 255, 0.8), 0 0 30px rgba(0, 255, 255, 0.6);
+            }
+            100% {
+                text-shadow: 0 0 25px rgba(0, 255, 255, 1), 0 0 45px rgba(0, 255, 255, 0.9);
+            }
+        }
+
+        .key-box {
+            border: 2px solid #00FFFF;
+            padding: 35px;
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 255, 255, 0.7);
+            transition: all 0.3s ease;
+        }
+
+        .key-box:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 30px rgba(0, 255, 255, 0.9);
+        }
+
+        .key-box label {
+            font-size: 1.2em;
+            display: block;
+            margin-bottom: 10px;
+            color: #fff;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .key-box input {
+            background: transparent;
+            border: 2px solid #00FFFF;
+            padding: 20px;
+            color: #fff;
+            font-size: 1.2em;
+            width: 100%;
+            margin-top: 10px;
+            border-radius: 8px;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        .key-box input:focus {
+            border-color: #ff00ff;
+            box-shadow: 0 0 15px rgba(255, 0, 255, 0.8);
+            transform: scale(1.05);
+        }
+
+        .button {
+            background: linear-gradient(45deg, #00FFFF, #ff00ff);
+            color: #000;
+            border: none;
+            padding: 18px 35px;
+            font-size: 1.3em;
+            border-radius: 50px;
+            cursor: pointer;
+            margin-top: 25px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
+        }
+
+        .button:hover {
+            background: linear-gradient(45deg, #ff00ff, #00FFFF);
+            transform: scale(1.1);
+            box-shadow: 0 0 25px rgba(255, 0, 255, 0.9);
+        }
+
+        .footer {
+            margin-top: 25px;
+            font-size: 0.9em;
+            color: #aaa;
+            text-shadow: 0 0 10px rgba(255, 0, 255, 0.4);
+        }
+
+        .footer a {
+            color: #00FFFF;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer a:hover {
+            color: #ff00ff;
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.05);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Trust Key Zabezpečení</h1>
+        <div class="key-box">
+            <label for="trustKey">Zadejte svůj Trust Key</label>
+            <input type="text" id="trustKey" placeholder="Vaše bezpečnostní klíč...">
+            <button class="button">Ověřit</button>
+        </div>
+        <div class="footer">
+            <p>Pro více informací navštivte naši <a href="#">oficiální stránku</a>.</p>
+        </div>
+    </div>
+</body>
+</html>
